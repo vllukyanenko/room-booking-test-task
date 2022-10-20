@@ -9,13 +9,15 @@
     <version>2.7.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example</groupId>
+  <groupId>com.aim</groupId>
   <artifactId>booking-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>booking-service</name>
   <description>booking-service</description>
   <properties>
     <java.version>17</java.version>
+    <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+    <org.projectlombok.version>1.18.24</org.projectlombok.version>
   </properties>
   <dependencies>
     <dependency>
@@ -54,6 +56,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>${org.projectlombok.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -76,6 +79,11 @@
       <artifactId>de.huxhorn.sulky.ulid</artifactId>
       <version>8.2.0</version>
     </dependency>
+    <dependency>
+    <groupId>org.mapstruct</groupId>
+    <artifactId>mapstruct</artifactId>
+      <version>${org.mapstruct.version}</version>
+  </dependency>
   </dependencies>
 
   <build>
@@ -93,6 +101,27 @@
               <artifactId>lombok</artifactId>
             </exclude>
           </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${org.mapstruct.version}</version>
+            </path>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${org.projectlombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
     </plugins>
