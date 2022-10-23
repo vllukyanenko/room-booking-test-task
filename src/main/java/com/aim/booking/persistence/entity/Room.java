@@ -8,9 +8,14 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @Table(name = "room")
@@ -22,8 +27,8 @@ public class Room extends BaseEntity {
   @Column(name = "seats_amount")
   private int seatsAmount;
 
-  @Column(name = "floor_number")
-  private byte floorNumber;
+  @Column(name = "floor")
+  private String floor;
 
   @Column(name = "description")
   private String description;

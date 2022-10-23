@@ -2,22 +2,27 @@ package com.aim.booking.persistence.entity;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
@@ -50,7 +55,7 @@ public abstract class BaseEntity implements Serializable {
   }
 
   private void createdBy() {
-    Object principal = getPrincipal();
+    setCreator("anonymous");
 
   }
 
