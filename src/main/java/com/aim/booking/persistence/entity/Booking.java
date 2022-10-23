@@ -1,31 +1,44 @@
 package com.aim.booking.persistence.entity;
 
 import java.time.OffsetDateTime;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Version;
 
-@Data
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "booking")
-public class Booking extends BaseEntity{
+public class Booking extends BaseEntity {
 
-  @Column(name = "start_booking_time", nullable = false)
-  private OffsetDateTime startBookingTime;
+  @Version
+  @Setter(value = AccessLevel.NONE)
+  @Column(name = "version")
+  private Integer version;
 
-  @Column(name = "end_booking_time", nullable = false)
-  private OffsetDateTime endBookingTime;
+  @Column(name = "check_in", nullable = false)
+  private OffsetDateTime checkIn;
 
-  @Column(name = "room_id", nullable = false, insertable = false, updatable = false)
+  @Column(name = "check_out", nullable = false)
+  private OffsetDateTime checkOut;
+
+  @Column(name = "room_id")
   private String roomId;
 
-  @ManyToOne
-  @JoinColumn(name = "room_id")
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(referencedColumnName = "id", name = "room_id", updatable = false, insertable = false)
   private Room room;
 
 }
