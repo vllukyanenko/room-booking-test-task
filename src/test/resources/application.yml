@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: tests
+
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 10
+  liquibase:
+    enabled: false
+
+##LOGGER PROPERTIES
+logging:
+  level:
+    root: info
+    org.hibernate: info
+    org.springframework.web: info
+  file:
+    name: ${java.io.tmpdir}/service.log
+
+booking:
+  time:
+    initialAvailableBookingWeekDayNumber: 1
+    finalAvailableBookingWeekDayNumber: 7
+    initialAvailableBookingHours: 0
+    finalAvailableBookingHour: 24
