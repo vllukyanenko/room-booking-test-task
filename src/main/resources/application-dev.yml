@@ -29,7 +29,6 @@ spring:
 
 logging:
   level:
-    com.transperfect: info
     root: info
     org.hibernate: info
     org.springframework.web: info

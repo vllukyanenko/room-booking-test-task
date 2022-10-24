@@ -29,7 +29,6 @@ spring:
 
 logging:
   level:
-    com.transperfect: debug
     root: debug
     org.hibernate: debug
     org.springframework.web: debug
