@@ -1,5 +1,6 @@
 package com.aim.booking.service.impl;
 
+import com.aim.booking.config.BookingTimeConfiguration;
 import com.aim.booking.domain.BookingDto;
 import com.aim.booking.domain.mapper.BookingMapper;
 import com.aim.booking.persistence.entity.Booking;
@@ -12,27 +13,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @Transactional
+@EnableConfigurationProperties(BookingTimeConfiguration.class)
 public class BookingServiceImpl implements BookingService {
 
   private final BookingMapper bookingMapper;
   private final BookingRepository bookingRepository;
+  private final BookingTimeConfiguration bookingTimeConfiguration;
 
   public BookingServiceImpl(BookingMapper bookingMapper,
-      BookingRepository bookingRepository) {
+      BookingRepository bookingRepository,
+      BookingTimeConfiguration bookingTimeConfiguration) {
     this.bookingMapper = bookingMapper;
     this.bookingRepository = bookingRepository;
+    this.bookingTimeConfiguration = bookingTimeConfiguration;
   }
 
   @Override
   public BookingDto save(BookingDto dto) {
     log.debug("Save booking");
-    validateBookingOverlapping(dto);
+    validateBookingOverlappingAndBoundaries(dto);
     Booking booking = bookingMapper.toBooking(dto);
     booking = bookingRepository.save(booking);
     return bookingMapper.toBookingDto(booking);
@@ -41,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
   @Override
   public BookingDto update(BookingDto dto, String id) {
     log.debug("Update booking bi {}", id);
-    validateBookingOverlapping(dto);
+    validateBookingOverlappingAndBoundaries(dto);
     Booking booking = bookingRepository.findById(id).orElseThrow(
         () -> new EntityNotFoundException(
             String.format(ErrorMessages.BOOKING_WITH_ID_DOES_NOT_EXIST, id))
@@ -81,8 +87,23 @@ public class BookingServiceImpl implements BookingService {
     bookingRepository.deleteById(id);
   }
 
-  private void validateBookingOverlapping(BookingDto bookingDto) {
-    log.debug("Validate booking overlapping");
+  private void validateBookingOverlappingAndBoundaries(BookingDto bookingDto) {
+    log.debug("Validate booking overlapping and boundaries");
+    int finalBookingDays = bookingTimeConfiguration.getFinalAvailableBookingWeekDayNumber();
+    if (bookingDto.getCheckIn().getDayOfWeek().getValue()
+        > finalBookingDays
+        || bookingDto.getCheckOut().getDayOfWeek().getValue()
+        > finalBookingDays) {
+      throw new DateTimeException(ErrorMessages.BOOKING_OF_ROOM_IS_POSSIBLE_FROM_MN_TO_FR);
+    }
+    int initialBookingTime = bookingTimeConfiguration.getInitialAvailableBookingHours();
+    int finalBookingTime = bookingTimeConfiguration.getFinalAvailableBookingHour();
+    if (bookingDto.getCheckIn().getHour() > finalBookingTime
+        || bookingDto.getCheckIn().getHour() < initialBookingTime
+        || bookingDto.getCheckOut().getHour() > finalBookingTime
+        || bookingDto.getCheckOut().getHour() < initialBookingTime) {
+      throw new DateTimeException(ErrorMessages.BOOKING_OF_ROOM_IS_POSSIBLE_FROM_9_TO_17);
+    }
     List<Booking> bookingList = bookingRepository.findBookingByRoomId(bookingDto.getRoomId());
     bookingList.forEach(booking -> {
       if (isDateOverlapped(booking.getCheckIn(), booking.getCheckOut(),
