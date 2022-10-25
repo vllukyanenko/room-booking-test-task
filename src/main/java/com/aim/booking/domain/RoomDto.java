@@ -35,6 +35,6 @@ public class RoomDto extends BaseDto {
   @Size(max = 1024, message = "{room.description.size}")
   private String description;
 
-  @ArraySchema(arraySchema = @Schema(description = "Session's video records metadata", implementation = RoomDto.class))
+  @ArraySchema(arraySchema = @Schema(description = "Booking list for current room", implementation = RoomDto.class))
   private List<Booking> bookingList;
 }
