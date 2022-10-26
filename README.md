@@ -1,9 +1,9 @@
 # vladyslav.lukianenko test project
 
 Additional libraries:
-io.jsonwebtoken - need for working with JWT
-org.mapstruct - not bad entity mapper. Need to mapping Dtos to entities;
-swagger.doc - to providing api documentation;
+1) io.jsonwebtoken - need for working with JWT;
+2) org.mapstruct - not bad entity mapper. Need to mapping Dtos to entities;
+3) swagger.doc - to providing api documentation;
 
 
 ## Getting started
