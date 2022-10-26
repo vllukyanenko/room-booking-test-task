@@ -10,7 +10,8 @@ Additional libraries:
 1) create db schema in local DB
 2) add you local DB credentials to application-dev.yml;
 3) choose dev profile at maven plugin;
-4) Run app
+4) If needed, you can change application time booking set up at application.yml in section booking.time 
+5) Run app
 
 Additional:
 swagger dock link http://localhost:8080/swagger-ui/index.html
