@@ -37,7 +37,7 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public BookingDto save(BookingDto dto) {
+  public synchronized BookingDto save(BookingDto dto) {
     log.debug("Save booking");
     validateBookingOverlappingAndBoundaries(dto);
     Booking booking = bookingMapper.toBooking(dto);
@@ -46,7 +46,7 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public BookingDto update(BookingDto dto, String id) {
+  public synchronized BookingDto update(BookingDto dto, String id) {
     log.debug("Update booking bi {}", id);
     validateBookingOverlappingAndBoundaries(dto);
     Booking booking = bookingRepository.findById(id).orElseThrow(

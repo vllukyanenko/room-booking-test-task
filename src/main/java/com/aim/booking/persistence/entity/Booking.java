@@ -8,12 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Version;
 
 @Entity
 @Getter
@@ -22,11 +20,6 @@ import org.springframework.data.annotation.Version;
 @NoArgsConstructor
 @Table(name = "booking")
 public class Booking extends BaseEntity {
-
-  @Version
-  @Setter(value = AccessLevel.NONE)
-  @Column(name = "version")
-  private Integer version;
 
   @Column(name = "check_in", nullable = false)
   private OffsetDateTime checkIn;

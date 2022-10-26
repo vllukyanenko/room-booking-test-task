@@ -6,7 +6,6 @@ create table booking
     check_in  datetime     not null,
     check_out datetime     not null,
     room_id   varchar(255) not null,
-    version   int          null
 );
 
 create table room
