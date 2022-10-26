@@ -21,7 +21,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
     hibernate:
       # Hibernate ddl auto (create, create-drop, update)
-      ddl-auto: create
+      ddl-auto: validate
     show-sql: true
     generate-ddl: true
     database: MYSQL

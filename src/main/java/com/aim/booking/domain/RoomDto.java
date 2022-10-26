@@ -1,6 +1,5 @@
 package com.aim.booking.domain;
 
-import com.aim.booking.persistence.entity.Booking;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -36,5 +35,5 @@ public class RoomDto extends BaseDto {
   private String description;
 
   @ArraySchema(arraySchema = @Schema(description = "Booking list for current room", implementation = RoomDto.class))
-  private List<Booking> bookingList;
+  private List<BookingDto> bookingList;
 }

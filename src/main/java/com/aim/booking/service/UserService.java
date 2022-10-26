@@ -9,4 +9,6 @@ public interface UserService extends BaseService<UserDto> {
   boolean isExistsById(String userId);
 
   boolean isExistsByEmailAndStatus(String email, UserStatus status);
+
+  UserDto findByEmail(String email);
 }

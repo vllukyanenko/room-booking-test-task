@@ -8,7 +8,6 @@ import com.aim.booking.persistence.repository.UserRepository;
 import com.aim.booking.service.UserService;
 import com.aim.booking.service.exception.ErrorMessages;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -92,7 +91,16 @@ public class UserServiceImpl implements UserService {
   @Transactional(readOnly = true)
   public boolean isExistsByEmailAndStatus(String email, UserStatus status) {
     log.debug("Check user with email and status {} in database", email);
-    return userRepository.existsByEmailAndUserStatus(email, status);
+    return userRepository.existsByEmailAndStatus(email, status);
+  }
+
+  @Override
+  public UserDto findByEmail(String email) {
+    log.debug("Find user by email {}", email);
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new EntityNotFoundException(String.format(
+            ErrorMessages.USER_WITH_EMAIL_DOES_NOT_EXIST, email)));
+    return userMapper.toUserDto(user);
   }
 
 }

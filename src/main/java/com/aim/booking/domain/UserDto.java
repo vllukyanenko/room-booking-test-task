@@ -44,6 +44,6 @@ public class UserDto extends BaseDto {
   private String password;
 
   @Schema(description = "User profile status", example = "ACTIVE/INACTIVE", required = true)
-  private UserStatus userStatus;
+  private UserStatus status;
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface BookingService extends BaseService<BookingDto> {
 
-  List<BookingDto> getBookingByTimeBoundaries(OffsetDateTime checkInTime,
-      OffsetDateTime checkInTime2);
+  List<BookingDto> getBookingByTimeBoundaries(OffsetDateTime checkInTimeFrom,
+      OffsetDateTime checkInTimeTo);
+
+  boolean userIsCreator(String bookingId, String userEmail);
 }

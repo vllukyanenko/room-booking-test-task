@@ -28,7 +28,7 @@ public class UserTestUtils {
         .lastName(lastName)
         .password("password")
         .email(email)
-        .userStatus(UserStatus.ACTIVE)
+        .status(UserStatus.ACTIVE)
         .build();
   }
 
@@ -42,7 +42,7 @@ public class UserTestUtils {
   public User createUserDbInstance(String firsName, String lastName, String email,
       String userStatus) {
     User user = userMapper.toUser(buildUserDto(firsName, lastName, email));
-    user.setUserStatus(UserStatus.getUserStatus(userStatus));
+    user.setStatus(UserStatus.getUserStatus(userStatus));
     return userRepository.save(user);
   }
 }

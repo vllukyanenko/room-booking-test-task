@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.aim.booking.annotation.BookingIntegrationTest;
 import com.aim.booking.domain.BookingDto;
+import com.aim.booking.domain.RoomDto;
 import com.aim.booking.persistence.entity.Booking;
 import com.aim.booking.persistence.entity.Room;
 import com.aim.booking.service.exception.ErrorMessages;

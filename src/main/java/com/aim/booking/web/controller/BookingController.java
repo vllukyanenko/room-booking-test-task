@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +37,10 @@ public class BookingController implements BookingControllerEndpoint {
     return new ResponseEntity<>(bookingDto, HttpStatus.CREATED);
   }
 
+  @PreAuthorize("@securityServiceImpl.isCreator(#bookingId)")
   @PutMapping(path = "{bookingId}/")
-  public ResponseEntity<BookingDto> update(@RequestBody @Validated BookingDto bookingDto, @PathVariable String bookingId) {
+  public ResponseEntity<BookingDto> update(@RequestBody @Validated BookingDto bookingDto,
+      @PathVariable String bookingId) {
     log.debug("Update booking with id {}", bookingDto.getId());
     bookingDto = bookingService.update(bookingDto, bookingId);
     return new ResponseEntity<>(bookingDto, HttpStatus.ACCEPTED);
@@ -50,11 +53,12 @@ public class BookingController implements BookingControllerEndpoint {
     return new ResponseEntity<>(bookingDtoList, HttpStatus.OK);
   }
 
-  @GetMapping(path = "time/{checkIn}/{checkin2}/")
+  @GetMapping(path = "time/{checkInTimeFrom}/{checkInTimeTo}/")
   public ResponseEntity<List<BookingDto>> getBookingByTimeBoundaries(
-      @PathVariable OffsetDateTime checkIn, @PathVariable OffsetDateTime checkin2) {
-    log.debug("Get bookings in time boundaries from {} to {}", checkIn, checkin2);
-    List<BookingDto> bookingDtoList = bookingService.getBookingByTimeBoundaries(checkIn, checkin2);
+      @PathVariable OffsetDateTime checkInTimeFrom, @PathVariable OffsetDateTime checkInTimeTo) {
+    log.debug("Get bookings in time boundaries from {} to {}", checkInTimeFrom, checkInTimeTo);
+    List<BookingDto> bookingDtoList = bookingService.getBookingByTimeBoundaries(checkInTimeFrom,
+        checkInTimeTo);
     return new ResponseEntity<>(bookingDtoList, HttpStatus.OK);
   }
 

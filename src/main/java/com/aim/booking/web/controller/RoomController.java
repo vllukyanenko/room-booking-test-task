@@ -7,6 +7,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class RoomController implements RoomControllerEndpoint {
     this.roomService = roomService;
   }
 
+  @PreAuthorize("@securityServiceImpl.isHaveUpdatePermissions()")
   @PostMapping
   public ResponseEntity<RoomDto> save(@RequestBody @Validated RoomDto roomDto) {
     log.debug("Save new room");
@@ -36,6 +38,7 @@ public class RoomController implements RoomControllerEndpoint {
     return new ResponseEntity<>(roomDto, HttpStatus.CREATED);
   }
 
+  @PreAuthorize("@securityServiceImpl.isHaveUpdatePermissions()")
   @PutMapping(path = "{roomId}/")
   public ResponseEntity<RoomDto> update(@RequestBody @Validated RoomDto roomDto,
       @PathVariable String roomId) {
