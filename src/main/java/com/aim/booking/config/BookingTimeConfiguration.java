@@ -13,5 +13,6 @@ public class BookingTimeConfiguration {
   private int finalAvailableBookingWeekDayNumber;
   private int initialAvailableBookingHours;
   private int finalAvailableBookingHour;
+  private int minimalBookingTime;
 
 }

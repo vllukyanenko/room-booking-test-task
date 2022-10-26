@@ -1,15 +1,13 @@
 package com.aim.booking.persistence.entity;
 
+import com.aim.booking.security.UserDetailsImpl;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
-import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -55,8 +53,9 @@ public abstract class BaseEntity implements Serializable {
   }
 
   private void createdBy() {
-    setCreator("anonymous");
-
+    Object principal = getPrincipal();
+    this.creator = principal instanceof UserDetailsImpl ? ((UserDetailsImpl) principal).getEmail()
+        : principal.toString();
   }
 
   Object getPrincipal() {

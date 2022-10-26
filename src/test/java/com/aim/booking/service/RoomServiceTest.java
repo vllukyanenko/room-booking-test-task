@@ -68,6 +68,7 @@ public class RoomServiceTest {
   @Test
   public void when_findById_then_RoomDto() {
     Room savedRoom = roomTestUtil.createRoomDbInstance(roomName);
+
     RoomDto fetchedRoom = roomService.findById(savedRoom.getId());
     assertThat(fetchedRoom.getId()).isEqualTo(savedRoom.getId());
   }

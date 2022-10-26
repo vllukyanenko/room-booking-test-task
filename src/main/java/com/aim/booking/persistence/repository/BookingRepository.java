@@ -11,4 +11,6 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
 
   List<Booking> getBookingByCheckInAfterAndCheckInIsBefore(OffsetDateTime checkInTime,
       OffsetDateTime checkInTime2);
+
+  boolean existsByIdAndCreator(String id, String creator);
 }

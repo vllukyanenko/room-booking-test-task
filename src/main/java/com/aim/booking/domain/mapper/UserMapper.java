@@ -24,6 +24,6 @@ public interface UserMapper {
   @InheritConfiguration(name = "anyDtoToEntity")
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
       nullValueCheckStrategy = NullValueCheckStrategy.ON_IMPLICIT_CONVERSION)
-  @Mapping(target = "userStatus", ignore = true)
+  @Mapping(target = "status", ignore = true)
   void updateUserFromDto(UserDto userDto, @MappingTarget User user);
 }
