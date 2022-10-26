@@ -22,5 +22,5 @@ password: user
 admin credentials
 login: admin@aimp.com
 password: admin
-
+---------------------
 
