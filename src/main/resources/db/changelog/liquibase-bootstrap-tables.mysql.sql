@@ -5,7 +5,7 @@ create table booking
     creator   varchar(255) not null,
     check_in  datetime     not null,
     check_out datetime     not null,
-    room_id   varchar(255) not null,
+    room_id   varchar(255) not null
 );
 
 create table room
