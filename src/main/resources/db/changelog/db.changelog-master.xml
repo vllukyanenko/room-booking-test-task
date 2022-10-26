@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="create_tables" author="Vladyslav Lukianenko">
+    <sqlFile path="liquibase-bootstrap-tables.mysql.sql"
+      dbms="mysql"
+      stripComments="true"
+      relativeToChangelogFile="true"/>
+  </changeSet>
+
+  <changeSet id="1" author="Vladyslav Lukianenko">
+    <insert tableName="user">
+      <column name="id" value="01GF6CKJJ4BTDC7ZHGADKK8ART"/>
+      <column name="first_name" value="Super"/>
+      <column name="last_name" value="Admin"/>
+      <column name="email" value="admin@aimp.com"/>
+      <column name="status" value="ACTIVE"/>
+      <column name="password"
+        value="HRRW4Fh6mitqEQOEwqW6+g/JADmY08Dfv4SdrXOJL7GE/cjI7tH4wyA5RvjsOmf7"/>
+      <column name="created" value="now()"/>
+      <column name="creator" value="System"/>
+    </insert>
+    <insert tableName="user">
+      <column name="id" value="01GF6CKJJ4BTDC7ZHGADKK10QW"/>
+      <column name="first_name" value="Test"/>
+      <column name="last_name" value="User"/>
+      <column name="email" value="user@aimp.com"/>
+      <column name="status" value="ACTIVE"/>
+      <column name="password"
+        value="6TQ4RpXNCYZVnNn1DJwjiKCTGaTSnL2cmdjjhZCv7kVD0kZQInv7xTllXcK81km3"/>
+      <column name="created" value="now()"/>
+      <column name="creator" value="System"/>
+    </insert>
+    <insert tableName="room">
+      <column name="id" value="01GF6CKJJ4BTDC7ZHGADKK1WWW"/>
+      <column name="floor" value="5"/>
+      <column name="name" value="Meeting room 10"/>
+      <column name="seats_amount" value="8"/>
+      <column name="description" value="Some description"/>
+      <column name="created" value="now()"/>
+      <column name="creator" value="admin@aimp.com"/>
+    </insert>
+    <insert tableName="room">
+      <column name="id" value="01GF6CKJJ4BTDC7ZHGADKK2SSS"/>
+      <column name="floor" value="5A"/>
+      <column name="name" value="Meeting room 2"/>
+      <column name="seats_amount" value="10"/>
+      <column name="description" value="Some description"/>
+      <column name="created" value="now()"/>
+      <column name="creator" value="admin@aimp.com"/>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

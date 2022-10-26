@@ -8,6 +8,7 @@ import com.aim.booking.persistence.repository.BookingRepository;
 import com.aim.booking.service.BookingService;
 import com.aim.booking.service.exception.ErrorMessages;
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +91,13 @@ public class BookingServiceImpl implements BookingService {
   private void validateBookingOverlappingAndBoundaries(BookingDto bookingDto) {
     log.debug("Validate booking overlapping and boundaries");
     int finalBookingDays = bookingTimeConfiguration.getFinalAvailableBookingWeekDayNumber();
+
+    if (Duration.between(bookingDto.getCheckIn(), bookingDto.getCheckOut()).toMinutes()
+        < bookingTimeConfiguration.getMinimalBookingTime()) {
+      throw new DateTimeException(String.format(ErrorMessages.MINIMAL_BOOKING_TIME_OF_ROOM_IS,
+          bookingTimeConfiguration.getMinimalBookingTime()));
+    }
+
     if (bookingDto.getCheckIn().getDayOfWeek().getValue()
         > finalBookingDays
         || bookingDto.getCheckOut().getDayOfWeek().getValue()
@@ -121,14 +129,20 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public List<BookingDto> getBookingByTimeBoundaries(OffsetDateTime checkInTime,
-      OffsetDateTime checkInTime2) {
-    log.debug("Get all bookings which have checkIn after {} and before {}", checkInTime,
-        checkInTime2);
+  public List<BookingDto> getBookingByTimeBoundaries(OffsetDateTime checkInTimeFrom,
+      OffsetDateTime checkInTimeTo) {
+    log.debug("Get all bookings which have checkIn after {} and before {}", checkInTimeFrom,
+        checkInTimeTo);
     List<Booking> bookingList = bookingRepository.getBookingByCheckInAfterAndCheckInIsBefore(
-        checkInTime, checkInTime2);
+        checkInTimeFrom, checkInTimeTo);
     return bookingList.stream().map(
             bookingMapper::toBookingDto)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public boolean userIsCreator(String bookingId, String userEmail) {
+    log.debug("Check booking is exist by id {} and creator {}", bookingId, userEmail);
+    return bookingRepository.existsByIdAndCreator(bookingId, userEmail);
   }
 }

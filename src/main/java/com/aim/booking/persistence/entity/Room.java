@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Filter;
 
 @Getter
 @Setter
@@ -34,5 +36,7 @@ public class Room extends BaseEntity {
   private String description;
 
   @OneToMany(mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @Fetch(FetchMode.JOIN)
+  @Filter(name = "dateDueFilter", condition = ":checkIn >= OffsetDateTime.now()")
   private List<Booking> bookingList;
 }
